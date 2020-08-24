@@ -14,3 +14,23 @@
   }
   
 }
+
+.ui-keyboard {
+    position: relative;
+}
+
+.sc-ion-label-md-h {
+    // margin-bottom: 10px;
+}
+
+[name="username"], [name="password"]{
+    margin-top: 15px;
+    margin-bottom: 3px;
+    padding: 10px;
+    font-size: 12px;
+    width: 100%;
+}
+
+.keyboard-wrapper {
+    width: 100%;
+}

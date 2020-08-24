@@ -4,6 +4,7 @@ import './Login.scss';
 import { setIsLoggedIn, setUsername } from '../data/user/user.actions';
 import { connect } from '../data/connect';
 import { RouteComponentProps } from 'react-router';
+import Keyboard from 'react-virtual-keyboard';
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -39,6 +40,14 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
     }
   };
 
+    function handleUsernameChange(data : any){
+        setUsername(data);
+    }
+    
+    function handlePasswordChange(data : any){
+        setPassword(data);
+    }
+
   return (
     <IonPage id="login-page">
       <IonHeader>
@@ -50,48 +59,88 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
         </IonToolbar>
       </IonHeader>
       <IonContent>
+          <div className="login-logo">
+              <img src="assets/img/appicon.svg" alt="Ionic logo" />
+          </div>
+          
+          <form noValidate onSubmit={login}>
+              <IonList>
+                  <IonItem>
+                      <IonLabel position="stacked" color="primary">Username</IonLabel>
+                      <Keyboard 
+                          value={username}
+                          name='username'
+                          options={{
+                              type:"input",
+                                  layout: "qwerty",
+                                  alwaysOpen: false,
+                                  usePreview: false,
+                                  useWheel: false,
+                                  stickyShift: false,
+                                  appendLocally: true,
+                                  color: "light",
+                                  reposition: true,
+                                  updateOnChange: true,
+                                  initialFocus: true,
+                                  display: {
+                                      "accept" : "Submit"
+                                  }
+                          }}
+                          placeholder="Enter Username"
+                          onChange={handleUsernameChange}
+                          onAccepted={() => alert(`You've submitted "${username}" as a username`)}
+                      />
+                  </IonItem>
 
-        <div className="login-logo">
-          <img src="assets/img/appicon.svg" alt="Ionic logo" />
-        </div>
+                  {formSubmitted && usernameError && <IonText color="danger">
+                      <p className="ion-padding-start">
+                          Username is required
+                      </p>
+              </IonText>}
 
-        <form noValidate onSubmit={login}>
-          <IonList>
-            <IonItem>
-              <IonLabel position="stacked" color="primary">Username</IonLabel>
-              <IonInput name="username" type="text" value={username} spellCheck={false} autocapitalize="off" onIonChange={e => setUsername(e.detail.value!)}
-                required>
-              </IonInput>
-            </IonItem>
+              <IonItem>
+                  <IonLabel position="stacked" color="primary">Password</IonLabel>
+                    <Keyboard 
+                          value={password}
+                          name='password'
+                          options={{
+                              type:"password",
+                                  layout: "qwerty",
+                                  alwaysOpen: false,
+                                  usePreview: false,
+                                  useWheel: false,
+                                  stickyShift: false,
+                                  appendLocally: true,
+                                  color: "light",
+                                  reposition: true,
+                                  updateOnChange: true,
+                                  initialFocus: true,
+                                  display: {
+                                      "accept" : "Submit"
+                                  }
+                          }}
+                          placeholder="Enter Password"
+                          onChange={handlePasswordChange}
+                          onAccepted={() => alert(`You've submitted "${password}" as a password`)}
+                      />
+              </IonItem>
 
-            {formSubmitted && usernameError && <IonText color="danger">
-              <p className="ion-padding-start">
-                Username is required
-              </p>
-            </IonText>}
+              {formSubmitted && passwordError && <IonText color="danger">
+                  <p className="ion-padding-start">
+                      Password is required
+                  </p>
+          </IonText>}
+      </IonList>
 
-            <IonItem>
-              <IonLabel position="stacked" color="primary">Password</IonLabel>
-              <IonInput name="password" type="password" value={password} onIonChange={e => setPassword(e.detail.value!)}>
-              </IonInput>
-            </IonItem>
-
-            {formSubmitted && passwordError && <IonText color="danger">
-              <p className="ion-padding-start">
-                Password is required
-              </p>
-            </IonText>}
-          </IonList>
-
-          <IonRow>
-            <IonCol>
+      <IonRow>
+          <IonCol>
               <IonButton type="submit" expand="block">Login</IonButton>
-            </IonCol>
-            <IonCol>
+          </IonCol>
+          <IonCol>
               <IonButton routerLink="/signup" color="light" expand="block">Signup</IonButton>
-            </IonCol>
-          </IonRow>
-        </form>
+          </IonCol>
+      </IonRow>
+  </form>
 
       </IonContent>
 
